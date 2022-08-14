@@ -1,4 +1,3 @@
-import './App.css';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import MapWrapper from './components/MapWrapper';
 

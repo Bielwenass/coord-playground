@@ -14,6 +14,7 @@ export default function MapWrapper() {
     if (event.originalEvent.button === 2) {
       event.preventDefault();
       areaRectStartSet([event.lngLat.lng, event.lngLat.lat]);
+      areaRectEndSet([event.lngLat.lng, event.lngLat.lat]);
       isDraggedSet(true);
     }
   }
