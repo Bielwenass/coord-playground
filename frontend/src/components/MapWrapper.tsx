@@ -1,41 +1,47 @@
 import React, { useState } from 'react';
-import Map, { Source, Layer, LayerProps } from 'react-map-gl';
+import Map, { Source, Layer, LayerProps, Marker, MarkerProps } from 'react-map-gl';
 import { MapMouseEvent } from 'react-map-gl/dist/esm/types';
 import { Feature } from 'geojson';
+import { getRandomPoints } from '../requests/randomPoints';
 
 export default function MapWrapper() {
-  const [isDragged, isDraggedSet] = useState(false);
-  const [areaRectStart, areaRectStartSet] = useState([0, 0]);
-  const [areaRectEnd, areaRectEndSet] = useState([0, 0]);
-  const [points, setPoints] = useState([[[0, 0]]]);
+  const [isDragged, setIsDragged] = useState(false);
+  const [areaRectStart, setAreaRectStart] = useState([0, 0]);
+  const [areaRectEnd, setAreaRectEnd] = useState([0, 0]);
+  const [vertices, setVertices] = useState([[[0, 0]]]);
+  const [markers, setMarkers] = useState<MarkerProps[]>([]);
 
   const onMapMouseDown = (event: MapMouseEvent) => {
     // Check if the right mouse button is pressed
     if (event.originalEvent.button === 2) {
       event.preventDefault();
-      areaRectStartSet([event.lngLat.lng, event.lngLat.lat]);
-      areaRectEndSet([event.lngLat.lng, event.lngLat.lat]);
-      isDraggedSet(true);
+      setAreaRectStart([event.lngLat.lng, event.lngLat.lat]);
+      setAreaRectEnd([event.lngLat.lng, event.lngLat.lat]);
+      setIsDragged(true);
     }
   }
 
   const onMapMouseMove = (event: MapMouseEvent) => {
     if (isDragged) {
-      areaRectEndSet([event.lngLat.lng, event.lngLat.lat]);
+      setAreaRectEnd([event.lngLat.lng, event.lngLat.lat]);
       updateAreaRectPoints();
     }
   }
 
-  const onMapMouseUp = (event: MapMouseEvent) => {
+  const onMapMouseUp = async (event: MapMouseEvent) => {
     // Check if the right mouse button is pressed
     if (event.originalEvent.button === 2) {
-      isDraggedSet(false);
+      setIsDragged(false);
+
+      const randomMarkers = await getRandomPoints(areaRectStart, areaRectEnd, 5);
+      
+      setMarkers(randomMarkers);
     }
   }
 
   const updateAreaRectPoints = () => {
     // https://www.rfc-editor.org/rfc/rfc7946#section-3.1.6
-    setPoints([[
+    setVertices([[
       areaRectStart,
       [areaRectStart[0], areaRectEnd[1]],
       areaRectEnd,
@@ -48,7 +54,7 @@ export default function MapWrapper() {
     type: 'Feature',
     geometry: {
       type: 'Polygon',
-      coordinates: points
+      coordinates: vertices
     },
     properties: {}
   };
@@ -81,6 +87,10 @@ export default function MapWrapper() {
         data = {geojson}>
         <Layer {...layerStyle} />
       </Source>
+
+      { markers.map((markerData, idx) => 
+        <Marker {...markerData} key = {idx} />
+      )}
     </Map>
   );
 }
