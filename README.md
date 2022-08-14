@@ -1,5 +1,5 @@
 # coord-playground
-Test project for displaying random coordinates on a map. To draw a rectangle box for the random coordinates to appear in, click with right mouse button and drag on the map. 5 random points will appear as markers inside the selected rectangle.
+Test project for displaying random coordinates on a map. To draw a rectangle box for the random coordinates to appear in, click with right mouse button and drag on the map. Five random points will appear as markers inside the selected rectangle.
 
 ![Screenshot](https://imgur.com/LmDuREL.png)
 
