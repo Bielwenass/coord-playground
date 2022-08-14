@@ -6,7 +6,7 @@ dotenv.config();
 
 const app: Express = express();
 const port = process.env.PORT;
-app.use(cors())
+app.use(cors());
 
 app.get('/random', (req: Request, res: Response) => {
   const latA = Number(req.query.latA);
@@ -32,7 +32,7 @@ app.get('/random', (req: Request, res: Response) => {
 
   // Generate random points
   for (let i = 0; i < count; i += 1) {
-    let lng = Math.random() * (lngB - lngA) + lngA
+    let lng = Math.random() * (lngB - lngA) + lngA;
 
     // Normalize longitude if it's out of range
     if (lng < -180) {

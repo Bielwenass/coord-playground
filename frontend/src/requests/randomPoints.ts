@@ -1,5 +1,5 @@
-import axios from "axios";
-import { MarkerProps } from "react-map-gl";
+import axios from 'axios';
+import { MarkerProps } from 'react-map-gl';
 
 export const getRandomPoints = async (
   vertexA: number[],
@@ -14,16 +14,16 @@ export const getRandomPoints = async (
       lngB: vertexB[0],
       count
     }
-  })
+  });
 
   if (pointsResponse.status === 200) {
     return pointsResponse.data.map((e: { lng: number; lat: number }) => {
       return {
         longitude: e.lng,
         latitude: e.lat
-      }
-    })
+      };
+    });
   } else {
     return [];
   }
-}
+};

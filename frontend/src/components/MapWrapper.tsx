@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import Map, { Source, Layer, LayerProps, Marker, MarkerProps } from 'react-map-gl';
 import { MapMouseEvent } from 'react-map-gl/dist/esm/types';
 import { Feature } from 'geojson';
@@ -19,14 +19,14 @@ export default function MapWrapper() {
       setAreaRectEnd([event.lngLat.lng, event.lngLat.lat]);
       setIsDragged(true);
     }
-  }
+  };
 
   const onMapMouseMove = (event: MapMouseEvent) => {
     if (isDragged) {
       setAreaRectEnd([event.lngLat.lng, event.lngLat.lat]);
       updateAreaRectPoints();
     }
-  }
+  };
 
   const onMapMouseUp = async (event: MapMouseEvent) => {
     // Check if the right mouse button is pressed
@@ -37,7 +37,7 @@ export default function MapWrapper() {
       
       setMarkers(randomMarkers);
     }
-  }
+  };
 
   const updateAreaRectPoints = () => {
     // https://www.rfc-editor.org/rfc/rfc7946#section-3.1.6
@@ -47,8 +47,8 @@ export default function MapWrapper() {
       areaRectEnd,
       [areaRectEnd[0], areaRectStart[1]],
       areaRectStart,
-    ]])
-  }
+    ]]);
+  };
 
   const geojson: Feature = {
     type: 'Feature',
@@ -75,7 +75,7 @@ export default function MapWrapper() {
         latitude: 37.8,
         zoom: 14
       }}
-      style = {{ height: "100vh" }}
+      style = {{ height: '100vh' }}
       mapStyle = "mapbox://styles/mapbox/streets-v11"
       onMouseDown = {onMapMouseDown}
       onMouseMove = {onMapMouseMove}
